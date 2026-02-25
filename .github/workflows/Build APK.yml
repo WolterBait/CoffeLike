@@ -21,7 +21,7 @@ jobs:
     steps:
       # 1. Скачиваем код вашей ветки
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       # 2. Имитация сборки (создаем фейковый apk файл)
       - name: Build APK Simulation
@@ -34,7 +34,7 @@ jobs:
 
       # 3. Сохраняем файл, чтобы его можно было скачать
       - name: Upload APK Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: my-app-${{ inputs.environment }}.apk
           path: app-release.apk
