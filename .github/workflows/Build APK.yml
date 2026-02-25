@@ -1,0 +1,40 @@
+name: Build APK
+
+# Этот триггер позволяет запускать сценарий вручную через кнопку
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Выберите окружение'
+        required: true
+        default: 'Staging'
+        type: choice
+        options:
+          - Staging
+          - Production
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    
+    steps:
+      # 1. Скачиваем код вашей ветки
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 2. Имитация сборки (создаем фейковый apk файл)
+      - name: Build APK Simulation
+        run: |
+          echo "Начинаем сборку для окружения ${{ inputs.environment }}..."
+          echo "Ветка: ${{ github.ref_name }}"
+          # Создаем пустой файл с расширением .apk
+          echo "Fake APK content for ${{ inputs.environment }}" > app-release.apk
+          echo "Сборка завершена!"
+
+      # 3. Сохраняем файл, чтобы его можно было скачать
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: my-app-${{ inputs.environment }}.apk
+          path: app-release.apk
